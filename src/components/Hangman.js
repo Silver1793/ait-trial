@@ -19,13 +19,14 @@ function Hangman() {
       .split("")
       .map((letter) => (guessed.includes(letter) ? letter : " _ "));
   };
-
+  const gameState = () => {};
   const reset = () => {
     setWord(chooseRandom());
     setOver(false);
     setGuessed([]);
     setMistake(0);
   };
+
   const handleButtonClick = (e) => {
     if (word.includes(e.target.value) === false) {
       setMistake((prev) => prev + 1);
@@ -33,10 +34,26 @@ function Hangman() {
     setGuessed((old) => [...old, e.target.value]); //guessed.add(e.target.value));
   };
 
-  const genButtons = () => {
-    const alpha = "abcdefghijklmnopqrstuvwlyz";
-    return alpha.split("").map((letter, index) => (
+  const genButtonsAlpha = () => {
+    const alphaFirst = "abcdefghijkl";
+    return alphaFirst.split("").map((letter, index) => (
       <button
+        className="btn-alpha"
+        disabled={guessed.includes(letter)}
+        key={index}
+        value={letter}
+        onClick={handleButtonClick}
+      >
+        {letter}
+      </button>
+    ));
+  };
+
+  const genButtonsSec = () => {
+    const alphaSec = "mnopqrstuvwlyz";
+    return alphaSec.split("").map((letter, index) => (
+      <button
+        className="btn-alpha"
         disabled={guessed.includes(letter)}
         key={index}
         value={letter}
@@ -49,46 +66,19 @@ function Hangman() {
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {word}
+      <div className="centered">{word}</div>
+      <div className="centered">
+        <p>{guessWord()}</p>
       </div>
-      <br />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {guessWord()}
-        <br />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          Mistakes Made: {mistake}
-        </div>
-        <br />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {genButtons()}
-        </div>
-        <br />
-        <button onClick={reset}>Restart</button>
+      <div className="centered">
+        <p>Mistakes Made: {mistake}</p>
+      </div>
+      <div className="centered">{genButtonsAlpha()}</div>
+      <div className="centered">{genButtonsSec()}</div>
+      <div className="centered">
+        <button className="btn-sub" onClick={reset}>
+          Restart
+        </button>
       </div>
     </div>
   );
