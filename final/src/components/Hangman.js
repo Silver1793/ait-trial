@@ -9,9 +9,10 @@ function Hangman() {
   const [over, setOver] = useState(false);
   const [guessed, setGuessed] = useState([]);
   const baseUrl = process.env.baseURL || "http://localhost:6001";
+  const other = "https://richardthisisatest.herokuapp.com";
 
   useEffect(() => {
-    axios.get(baseUrl + "/words").then(function (response) {
+    axios.get(other + "/words").then(function (response) {
       setWord(response.data);
     });
   }, []);
@@ -28,7 +29,7 @@ function Hangman() {
   };
   const reset = () => {
     console.log("HERE");
-    axios.get(baseUrl + "/words").then(function (response) {
+    axios.get(other + "/words").then(function (response) {
       setWord(response.data);
     });
     setOver(false);
